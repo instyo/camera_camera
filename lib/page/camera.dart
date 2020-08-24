@@ -23,6 +23,7 @@ class Camera extends StatefulWidget {
   final CameraSide initialCamera;
   final Function(CameraLensDirection direction, List<CameraDescription> cameras)
       onChangeCamera;
+  final ResolutionPreset resolution;
 
   const Camera({
     Key key,
@@ -33,6 +34,7 @@ class Camera extends StatefulWidget {
     this.warning,
     this.onChangeCamera,
     this.initialCamera = CameraSide.back,
+    this.resolution = ResolutionPreset.high,
     this.enableCameraChange = true,
   }) : super(key: key);
   @override
@@ -55,7 +57,7 @@ class _CameraState extends State<Camera> {
     bloc.cameras.listen((data) {
       bloc.controllCamera = CameraController(
         data[0],
-        ResolutionPreset.high,
+        resolution,
       );
       bloc.cameraOn.sink.add(0);
       bloc.controllCamera.initialize().then((_) {
